@@ -63,7 +63,7 @@ const todoReducer = (state= initState, action) => {
             delete state.todos[action.todo.id];
             return {
                 ...state,
-                todos: { ...state.todos, [action.newId]: action.todo },
+                todos: { ...state.todos, [action.newId]: { ...action.todo, id: action.newId } },
                 error: false,
                 msg: 'Todo edited successfully!'
             }
@@ -79,14 +79,6 @@ const todoReducer = (state= initState, action) => {
         case 'RESET_MSG':
             return {
                 ...state,
-                error: false,
-                msg: ''
-            };
-
-        case 'SORT_TODOS':
-            return {
-                ...state,
-                order: action.data,
                 error: false,
                 msg: ''
             };
