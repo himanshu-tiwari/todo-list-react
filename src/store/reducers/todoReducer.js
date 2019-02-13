@@ -14,7 +14,6 @@ const initState = {
     filterBy: {
         done: ''
     },
-    order: 1,
     error: false,
     msg: ''
 };
