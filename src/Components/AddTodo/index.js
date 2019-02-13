@@ -1,28 +1,41 @@
 import React, { Component } from 'react';
 import './index.scss';
 import { connect } from 'react-redux';
-import { addTodo } from '../../store/actions/todoActions';
+import { addTodo, editTodo } from '../../store/actions/todoActions';
 
 class AddTodo extends Component {
     state = {
         content: ''
     };
 
-    handleChange = (e) => {
+    changeState = (field, value) => {
         this.setState({
             ...this.state,
-            content: e.target.value
+            [field]: value
         });
-    }
+    };
     
     handleSubmit = (e) => {
         e.preventDefault();
-        if (this.state.content.length) {
-            this.props.addTodo(this.state);
-            this.setState({
-                ...this.state,
-                content: ''
-            });
+        const { content } = this.state;
+
+        if (content.length) {
+            const { todoToEdit, addTodo, editTodo, finishEditing } = this.props;
+
+            if (typeof(todoToEdit) === "object" && Object.values(todoToEdit).length) {
+                editTodo({ id: todoToEdit.id, content: content, done: todoToEdit.done });
+                finishEditing();
+            } else {
+                addTodo(this.state);
+                this.changeState('content', '');
+            }
+        }
+    };
+
+    componentDidMount = () => {
+        const { todoToEdit } = this.props;
+        if (typeof(todoToEdit) === "object" && Object.values(todoToEdit).length) {
+            this.changeState('content', todoToEdit.content);
         }
     };
 
@@ -32,9 +45,9 @@ class AddTodo extends Component {
                 <form className="add-todo-form" onSubmit={this.handleSubmit}>
                     <input
                         type="text"
-                        placeholder="Add a new todo"
+                        placeholder={`Add a new todo`}
                         value={this.state.content}
-                        onChange={this.handleChange}
+                        onChange={(e) => this.changeState('content', e.target.value)}
                     />
                 </form>
             </div>
@@ -44,7 +57,8 @@ class AddTodo extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addTodo: (todo) => dispatch(addTodo(todo))
+        addTodo: (todo) => dispatch(addTodo(todo)),
+        editTodo: (todo) => dispatch(editTodo(todo))
     }
 };
 

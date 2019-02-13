@@ -1,0 +1,1 @@
+export const MY_NAMESPACE = '299f6e91-20fd-4f61-8afc-e6deec6b62d1';

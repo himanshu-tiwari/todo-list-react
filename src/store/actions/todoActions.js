@@ -1,7 +1,7 @@
 import v35 from 'uuid/v5';
+import { MY_NAMESPACE } from '../../config';
 
 export const addTodo = (todo) => {
-    const MY_NAMESPACE = '299f6e91-20fd-4f61-8afc-e6deec6b62d1';
     todo.id = v35(todo.content, MY_NAMESPACE);
 
     return {
@@ -21,5 +21,13 @@ export const deleteTodo = (id) => {
     return {
         type: 'DELETE_TODO',
         id
+    };
+};
+        
+export const editTodo = (todo) => {
+    return {
+        type: 'EDIT_TODO',
+        todo,
+        newId: v35(todo.content, MY_NAMESPACE)
     };
 };
