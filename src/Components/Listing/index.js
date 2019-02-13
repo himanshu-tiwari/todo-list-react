@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './index.scss';
 import AddTodo from '../AddTodo';
+import { connect } from 'react-redux';
+import TodoCard from './TodoCard';
 
 class Listing extends Component {
     state = {};
@@ -8,11 +10,23 @@ class Listing extends Component {
     render() {
         return(
             <div className="listing">
+                Welcome to Todo Land
                 <AddTodo />
-                Listing
+                
+                {
+                    this.props.todos.length > 0
+                    ? this.props.todos.map(todo => <TodoCard {...todo} />)
+                    : 'All clear here. Have a nice day :)'
+                }
             </div>
         )
     }
 }
 
-export default Listing;
+const mapStateToProps = (state) => {
+    return {
+        todos: state.todos.todos
+    };
+};
+
+export default connect(mapStateToProps)(Listing);
