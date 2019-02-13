@@ -31,3 +31,10 @@ export const editTodo = (todo) => {
         newId: v35(todo.content, MY_NAMESPACE)
     };
 };
+        
+export const setFilter = (data) => {
+    return {
+        type: 'FILTER_TODOS',
+        data
+    };
+};

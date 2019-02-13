@@ -11,9 +11,10 @@ const initState = {
             done: false
         },
     },
-    filter: 'completed',
+    filterBy: {
+        done: ''
+    },
     order: 1,
-    limit: 10,
     error: false,
     errorMsg: ''
 };
@@ -56,6 +57,11 @@ const todoReducer = (state= initState, action) => {
                 ...state,
                 todos: { ...state.todos, [action.newId]: action.todo }
             }
+        case 'FILTER_TODOS':
+            return {
+                ...state,
+                filterBy: { ...state.filterBy, ...action.data }
+            };
         default:
             return state;
     }

@@ -3,6 +3,7 @@ import './index.scss';
 import AddTodo from '../AddTodo';
 import { connect } from 'react-redux';
 import TodoCard from './TodoCard';
+import { setFilter } from '../../store/actions/todoActions';
 
 class Listing extends Component {
     state = {
@@ -17,21 +18,28 @@ class Listing extends Component {
     };
 
     render() {
-        console.log(this.props.todos);
         const { todoToEdit } = this.state;
-        const { todos } = this.props;
+        const { todos, filterBy, setFilter } = this.props;
 
+        console.log(filterBy, todos, new Date());
         return(
             <div className="listing">
                 Welcome to Todo Land
 
                 Incomplete todos: { Object.values(todos).filter(todo => !todo.done).length }
 
+                Filter: <select value={filterBy.done} onChange={e => setFilter(e.target.value)}>
+                    <option value="">All Todos</option>
+                    <option value="true">Completed Todos</option>
+                    <option value="false">Active Todos</option>
+                </select>
+
                 <AddTodo />
                 
                 {
                     Object.keys(todos).length > 0
                     ? Object.values(todos).reverse()
+                        .filter(todo => filterBy.done.length ? filterBy.done === ""+todo.done : true)
                         .map(todo => {
                             if (todoToEdit === todo.id) {
                                 return <AddTodo
@@ -55,13 +63,20 @@ class Listing extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { todos, error, errorMsg } = state.todos;
+    const { todos, error, errorMsg, filterBy } = state.todos;
 
     return {
         todos,
         error,
-        errorMsg
+        errorMsg,
+        filterBy
     };
 };
 
-export default connect(mapStateToProps)(Listing);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setFilter: (value) => {console.log(value); return dispatch(setFilter({ done: value}))}
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Listing);
