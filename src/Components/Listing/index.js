@@ -15,7 +15,7 @@ class Listing extends Component {
                 
                 {
                     this.props.todos.length > 0
-                    ? this.props.todos.map(todo => <TodoCard {...todo} />)
+                    ? this.props.todos.map(todo => <TodoCard {...todo} key={todo.id} />)
                     : 'All clear here. Have a nice day :)'
                 }
             </div>

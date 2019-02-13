@@ -11,6 +11,14 @@ const initState = {
 
 const todoReducer = (state= initState, action) => {
     switch(action.type) {
+        case 'ADD_TODO':
+            return {
+                ...state,
+                todos: [
+                    ...state.todos,
+                    { ...action.data }
+                ]
+            }
         default:
             return state;
     }
