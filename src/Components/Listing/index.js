@@ -24,6 +24,9 @@ class Listing extends Component {
         return(
             <div className="listing">
                 Welcome to Todo Land
+
+                Incomplete todos: { Object.values(todos).filter(todo => !todo.done).length }
+
                 <AddTodo />
                 
                 {
