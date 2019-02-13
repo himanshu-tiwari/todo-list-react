@@ -8,6 +8,7 @@ class Listing extends Component {
     state = {};
 
     render() {
+        console.log(this.props.todos);
         return(
             <div className="listing">
                 Welcome to Todo Land

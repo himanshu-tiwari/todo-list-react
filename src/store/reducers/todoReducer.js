@@ -18,12 +18,12 @@ const todoReducer = (state= initState, action) => {
                     [action.data.id]: { ...action.data }
                 }
             }
-        case 'MARK_TODO_DONE':
+        case 'TOGGLE_TODO_DONE':
             return {
                 ...state,
                 todos: {
                     ...state.todos,
-                    [action.id]: { ...state.todos[action.id], done: true }
+                    [action.id]: { ...state.todos[action.id], done: !state.todos[action.id].done }
                 }
             }
         default:

@@ -1,0 +1,12 @@
+.todo-card {
+    
+}
+.todo-card.done {
+    svg.check {
+        background: black;
+        
+        * {
+            fill: #fff;
+        }
+    }
+}

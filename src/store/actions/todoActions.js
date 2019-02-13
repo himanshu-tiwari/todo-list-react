@@ -9,10 +9,10 @@ export const addTodo = (todo) => {
         data: todo
     }
 };
-        
-export const markTodoDone = (id) => {
+
+export const toggleTodoDone = (id) => {
     return {
-        type: 'MARK_TODO_DONE',
+        type: 'TOGGLE_TODO_DONE',
         id
     };
 };
