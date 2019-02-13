@@ -3,7 +3,9 @@ import './index.scss';
 import AddTodo from '../AddTodo';
 import { connect } from 'react-redux';
 import TodoCard from './TodoCard';
-import { setFilter } from '../../store/actions/todoActions';
+import { setFilter, resetMsg } from '../../store/actions/todoActions';
+import Alert from './Alert';
+import { filterTodos } from '../../helpers/lsitingHelpers';
 
 class Listing extends Component {
     state = {
@@ -17,65 +19,84 @@ class Listing extends Component {
         });
     };
 
+    componentDidUpdate() {
+        setTimeout(this.props.resetMsg, this.props.error ? 4000 : 2000);
+    }
+
     render() {
         const { todoToEdit } = this.state;
-        const { todos, filterBy, setFilter } = this.props;
+        const { todos, filterBy, setFilter, error, msg } = this.props;
 
-        console.log(filterBy, todos, new Date());
         return(
             <div className="listing">
-                Welcome to Todo Land
-
-                Incomplete todos: { Object.values(todos).filter(todo => !todo.done).length }
-
-                Filter: <select value={filterBy.done} onChange={e => setFilter(e.target.value)}>
-                    <option value="">All Todos</option>
-                    <option value="true">Completed Todos</option>
-                    <option value="false">Active Todos</option>
-                </select>
-
-                <AddTodo />
-                
                 {
-                    Object.keys(todos).length > 0
-                    ? Object.values(todos).reverse()
-                        .filter(todo => filterBy.done.length ? filterBy.done === ""+todo.done : true)
-                        .map(todo => {
-                            if (todoToEdit === todo.id) {
-                                return <AddTodo
-                                    todoToEdit={todo}
-                                    key={todo.id}
-                                    finishEditing={() => this.changeState("todoToEdit", "")}
-                                />;
-                            } else {
-                                return <TodoCard
-                                    {...todo}
-                                    key={todo.id}
-                                    editTodo={(id) => this.changeState("todoToEdit", id)}
-                                />;
-                            }
-                        })
-                    : 'All clear here. Have a nice day :)'
+                    msg.length
+                    ? <Alert msg={msg} error={error} />
+                    : ''
                 }
+                
+                <h2 className="title">Stoic Todo</h2>
+                <h3 className="subtitle">- Plan your way to success</h3>
+
+                <div className="top-bar">
+                    <p className="incomplete-todos">
+                        Incomplete todos: { Object.values(todos).filter(todo => !todo.done).length }
+                    </p>
+
+                    <div className="filter-div">
+                        Filter: <select value={filterBy.done} onChange={e => setFilter(e.target.value)}>
+                            <option value="">All Todos</option>
+                            <option value="true">Completed Todos</option>
+                            <option value="false">Active Todos</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div className="cards-container">
+                    <AddTodo />
+
+                    {
+                        filterTodos(todos, filterBy).length > 0
+                        ? filterTodos(todos, filterBy)
+                            .reverse()
+                            .map(todo => {
+                                if (todoToEdit === todo.id) {
+                                    return <AddTodo
+                                        todoToEdit={todo}
+                                        key={todo.id}
+                                        finishEditing={() => this.changeState("todoToEdit", "")}
+                                    />;
+                                } else {
+                                    return <TodoCard
+                                        {...todo}
+                                        key={todo.id}
+                                        editTodo={(id) => this.changeState("todoToEdit", id)}
+                                    />;
+                                }
+                            })
+                        : ''
+                    }
+                </div>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    const { todos, error, errorMsg, filterBy } = state.todos;
+    const { todos, error, msg, filterBy } = state.todos;
 
     return {
         todos,
         error,
-        errorMsg,
+        msg,
         filterBy
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setFilter: (value) => {console.log(value); return dispatch(setFilter({ done: value}))}
+        setFilter: (value) => dispatch(setFilter({ done: value})),
+        resetMsg: () => dispatch(resetMsg()),
     };
 };
 

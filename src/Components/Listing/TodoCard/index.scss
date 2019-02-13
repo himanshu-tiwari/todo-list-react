@@ -1,9 +1,109 @@
 .todo-card {
+    background: #fff;
+    color: #000;
+    border: 1px solid #DEDEDE;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 82rem;
+    max-width: 100%;
+    padding: 0rem 0rem;
+    margin-bottom: 1.25rem;
+
+    svg {
+        cursor: pointer;
+
+        * {
+            fill: #979797;
+        }
+    }
+
+    .check {
+        align-self: flex-start;
+
+        svg {
+            width: 0.75rem;
+            height: 0.75rem;
+            padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            border-right: 2px solid #979797;
+            border-bottom: 2px solid #979797;
+            border-radius: 0;
+            border-bottom-right-radius: 4px;
+            transition-duration: 0.1s;
+        }
+        svg:hover {
+            background: #36C626;
+            border-color: #36C626;
+            width: 1rem;
+            height: 1rem;
     
+            * {
+                fill: #fff;
+            }
+        }
+    }
+
+    .content {
+        margin: 0;
+        text-align: left;
+        flex: 1;
+        padding: 0 1rem;
+        font-size: 1rem;
+    }
+
+    .other-actions {
+        display: flex;
+        flex-direction: column;
+
+        svg {
+            width: 0.5rem;
+            height: 0.5rem;
+            padding: 0.5rem;
+            transition-duration: 0.1s;
+            border-left: 1px solid #979797;
+        }
+        svg:hover {
+            width: 0.75rem;
+            height: 0.75rem;
+
+            * {
+                fill: #fff;
+            }
+        }
+        svg.delete {
+            border-top-right-radius: 4px;
+        }
+        svg.delete:hover {
+            background: #FF5858;
+            border-color: #FF5858;
+        }
+        svg.edit {
+            border-bottom-right-radius: 4px;
+        }
+        svg.edit:hover {
+            margin-top: -0.1rem;
+            background: #36C626;
+            border-color: #36C626;
+        }
+
+        hr {
+            width: 95%;
+            background: #979797;
+            margin: 0;
+        }
+    }
 }
 .todo-card.done {
-    svg.check {
-        background: black;
+    .check {
+        svg {
+            background: #36C626;
+            border-color: #36C626;
+        }
         
         * {
             fill: #fff;

@@ -38,3 +38,7 @@ export const setFilter = (data) => {
         data
     };
 };
+        
+export const resetMsg = () => {
+    return { type: 'RESET_MSG' };
+};

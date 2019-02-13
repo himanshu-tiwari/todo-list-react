@@ -1,0 +1,12 @@
+.add-todo {
+
+    form {
+        display: flex;
+        flex-direction: row;
+
+        input {
+            flex: 1;
+            width: 100%;
+        }
+    }
+}

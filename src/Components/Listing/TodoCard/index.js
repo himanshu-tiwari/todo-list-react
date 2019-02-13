@@ -11,10 +11,21 @@ const TodoCard = (props) => {
 
     return(
         <div className={`todo-card ${done && 'done'}`}>
-            { content }
-            <Check onClick={() => toggleTodoDone(id)} className="check" />
-            <Cross onClick={() => deleteTodo(id)} className="cross" />
-            <Edit onClick={() => editTodo(id)} className="edit" />
+            <div className="check">
+                <Check onClick={() => toggleTodoDone(id)} />
+            </div>
+
+            <p className="content">
+                { content }
+            </p>
+            
+            <div className="other-actions">
+                <Cross onClick={() => deleteTodo(id)} className="delete" />
+
+                <hr/>
+
+                <Edit onClick={() => editTodo(id)} className="edit" />
+            </div>
         </div>
     )
 };

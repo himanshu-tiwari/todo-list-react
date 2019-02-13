@@ -16,7 +16,7 @@ const initState = {
     },
     order: 1,
     error: false,
-    errorMsg: ''
+    msg: ''
 };
 
 const todoReducer = (state= initState, action) => {
@@ -27,43 +27,77 @@ const todoReducer = (state= initState, action) => {
                 todos: {
                     ...state.todos,
                     [action.data.id]: { ...action.data }
-                }
+                },
+                error: false,
+                msg: 'New todo added successfully!'
             };
+
         case 'TOGGLE_TODO_DONE':
             return {
                 ...state,
                 todos: {
                     ...state.todos,
                     [action.id]: { ...state.todos[action.id], done: !state.todos[action.id].done }
-                }
+                },
+                error: false,
+                msg: state.todos[action.id].done ? 'Todo marked as not done!' : 'Todo marked as done!'
             };
+
         case 'DELETE_TODO':
             delete state.todos[action.id];
             return {
                 ...state,
-                todos: { ...state.todos }
+                todos: { ...state.todos },
+                error: false,
+                msg: 'Todo deleted successfully!'
             };
+
         case 'EDIT_TODO':
-            if (typeof(state.todos[action.newId]) === "object") {
+            if (typeof(state.todos[action.newId]) === "object" && state.todos[action.todo.id].content !== action.todo.content) {
                 return {
                     ...state,
                     error: true,
-                    errorMsg: 'Another todo with this content already exists!'
+                    msg: 'Another todo with this content already exists. Could not make the edit!'
                 }
             }
 
             delete state.todos[action.todo.id];
             return {
                 ...state,
-                todos: { ...state.todos, [action.newId]: action.todo }
+                todos: { ...state.todos, [action.newId]: action.todo },
+                error: false,
+                msg: 'Todo edited successfully!'
             }
+
         case 'FILTER_TODOS':
             return {
                 ...state,
-                filterBy: { ...state.filterBy, ...action.data }
+                filterBy: { ...state.filterBy, ...action.data },
+                error: false,
+                msg: ''
             };
+
+        case 'RESET_MSG':
+            return {
+                ...state,
+                error: false,
+                msg: ''
+            };
+
+        case 'SORT_TODOS':
+            return {
+                ...state,
+                order: action.data,
+                error: false,
+                msg: ''
+            };
+
         default:
-            return state;
+            return {
+                ...state,
+                msg: '',
+                error: false
+            };
     }
 };
 
